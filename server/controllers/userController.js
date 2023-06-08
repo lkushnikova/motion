@@ -5,6 +5,7 @@ const path=require('path');
 
 
 class UserController{
+    /* Получение всех пользователей */
     async getAllUsers(req,res){
         const users=await User.findAll();
         return res.json(users);
@@ -18,6 +19,7 @@ class UserController{
         res.json(id);
         
     }
+    /* Регистрация пользователя в системе */
     async setNewUser(req,res,next){
         try {
             const {lastName,firstName,middleName,email,login,phone,sex,birthdate,city,education,password,photo,roleId}=req.body;
