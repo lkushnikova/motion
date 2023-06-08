@@ -11,6 +11,7 @@ class UserController{
         return res.json(users);
         
     }
+    /* получение одного пользователя для личных настроек профиля */
     async getOneUser(req,res,next){
         const {id}=req.query;
         if(!id){
