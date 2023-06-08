@@ -1,5 +1,6 @@
 const sequelize=require('../db');
 const {DataTypes}=require('sequelize');
+
 /* пользователи */
 const User=sequelize.define('user',{
 id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
@@ -14,7 +15,7 @@ birthdate:{type:DataTypes.DATE,allowNull:false},
 city:{type:DataTypes.STRING,allowNull:false},
 education:{type:DataTypes.STRING,allowNull:false},
 password:{type:DataTypes.STRING,allowNull:false},
-photo:{type:DataTypes.STRING},
+photo:{type:DataTypes.STRING}
 
 });
 /* клиент */
@@ -68,9 +69,71 @@ const Project=sequelize.define('project',{
     performers_link:{type:DataTypes.STRING},
     clients_link:{type:DataTypes.STRING},
     creator_id:{type:DataTypes.INTEGER,allowNull:false}
-
-    
     });
+
+/* задачи */
+const Task=sequelize.define('task',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    text:{type:DataTypes.TEXT,allowNull:false},
+    parent_id:{type:DataTypes.INTEGER,defaultValue:null},
+    agreement:{type:DataTypes.BOOLEAN,defaultValue:false}
+    });
+
+/* статус задачи */
+const TaskStatus=sequelize.define('task_status',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    color:{type:DataTypes.STRING,allowNull:false,defaultValue:'желтый'}
+
+    });
+/* исполнитель задачи */
+const TaskPerformer=sequelize.define('task_performer',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    color:{type:DataTypes.STRING,allowNull:false,defaultValue:'желтый'}
+
+    });
+/* индустрия */
+const Industry=sequelize.define('industry',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    });
+
+/* ниши */
+const Niche=sequelize.define('niche',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    });
+/* должность */
+const Position=sequelize.define('position',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    });
+
+/* должность исполнителя */
+const UserPosition=sequelize.define('user_position',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    start_date:{type:DataTypes.DATE,allowNull:false},
+    end_date:{type:DataTypes.DATE,defaultValue:null}
+    });
+
+/* специализация должностей */
+const SpecialPosition=sequelize.define('special_position',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    name:{type:DataTypes.TEXT,allowNull:false},
+    });
+
+/* клиенты-ниши */
+const ClientNiche=sequelize.define('client_niche',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    });
+
+/* пользователь-специализация должности */
+const UserSpecialPosition=sequelize.define('user_special_position',{
+    id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
+    });
+
 Role.hasMany(User);
 User.belongsTo(Role);
 
@@ -95,6 +158,31 @@ Project.belongsTo(User);
 ProjectStatus.hasMany(Project);
 Project.belongsTo(ProjectStatus);
 
+Project.hasMany(Task);
+Task.belongsTo(Project);
+
+TaskStatus.hasMany(Task);
+Task.belongsTo(TaskStatus);
+
+Industry.hasMany(Niche);
+Niche.belongsTo(Industry);
+
+User.hasMany(UserPosition);
+UserPosition.belongsTo(User);
+
+Position.hasMany(UserPosition);
+UserPosition.belongsTo(Position);
+
+Client.belongsToMany(Niche,{through:ClientNiche});
+Niche.belongsToMany(Client,{through:ClientNiche});
+
+User.belongsToMany(SpecialPosition,{through:UserSpecialPosition});
+SpecialPosition.belongsToMany(User,{through:UserSpecialPosition});
+
+Position.hasMany(SpecialPosition);
+SpecialPosition.belongsTo(Position);
+
+
 module.exports={
     User,
     Role,
@@ -104,4 +192,14 @@ module.exports={
     Category,
     Performer,
     Project,
+    Task,
+    TaskStatus,
+    TaskPerformer,
+    Industry,
+    Niche,
+    Position,
+    UserPosition,
+    ClientNiche,
+    SpecialPosition,
+    UserSpecialPosition
 }

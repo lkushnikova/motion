@@ -1,15 +1,9 @@
 const Router=require('express');
 const router=new Router();
 
-router.use('/project');
-router.use('/performer');
-router.use('/user');
-router.use('/supervisor');
-router.use('/creator');
-router.use('/projectStatus');
-
-
-
+router.get('/',(req,res)=>{
+    res.json({message:'Project Ok'})
+});
 
 
 module.exports=router;
