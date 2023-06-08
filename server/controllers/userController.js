@@ -13,11 +13,21 @@ class UserController{
     }
     /* получение одного пользователя для личных настроек профиля */
     async getOneUser(req,res,next){
-        const {id}=req.query;
-        if(!id){
-           return next(ApiError.badRequest('Не задан id роли'));
+        try {
+            const id=parseInt(req.params.id);
+            const user = await User.findOne({
+                where: { id: id }
+            })
+            
+            res.json(user);
+
+        } catch (error) {
+           
+                return next(error);
         }
-        res.json(id);
+        
+ 
+       
         
     }
     /* Регистрация пользователя в системе */
