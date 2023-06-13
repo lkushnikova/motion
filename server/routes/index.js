@@ -3,6 +3,8 @@ const router=new Router();
 const projectRoute=require('./projectRoute.js');
 const roleRoute=require('./roleRoute.js');
 const userRoute=require('./userRoute.js');
+const positionRoute=require('./positionRoute.js');
+
 /* проекты */
 router.use('/projects',projectRoute);
 
@@ -21,6 +23,12 @@ router.use('/setRole',roleRoute);
 router.use('/users',userRoute);
 router.use('/users/:id',userRoute);
 router.use('/setUser',userRoute);
+
+
+/* должности */
+router.use('/positions',positionRoute);
+router.use('/positions/:id',positionRoute);
+router.use('/setPosition',positionRoute);
 
 
 module.exports=router;
