@@ -49,6 +49,8 @@ const Role=sequelize.define('role',{
 const Category=sequelize.define('category',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     name:{type:DataTypes.STRING,allowNull:false,unique:true},
+    hidden:{type:DataTypes.BOOLEAN,allowNull:false,defaultValue:false}
+
     });
 /* проекты */
 const Project=sequelize.define('project',{
@@ -68,6 +70,7 @@ const Project=sequelize.define('project',{
     hide_from_supervisors:{type:DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
     performers_link:{type:DataTypes.STRING},
     clients_link:{type:DataTypes.STRING},
+    hidden:{type:DataTypes.BOOLEAN,allowNull:false,defaultValue:false},
     creator_id:{type:DataTypes.INTEGER,allowNull:false}
     });
 

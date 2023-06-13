@@ -15,11 +15,10 @@ class SpecialPositionController{
     async getOneSpecial(req,res,next){
         try {
             const id=parseInt(req.params.id);
-            const position = await Position.findOne({
+            const special = await SpecialPosition.findOne({
                 where: { id: id }
-            })
-            
-            res.json(position);
+            })           
+            res.json(special);
 
         } catch (error) {
            
@@ -27,10 +26,9 @@ class SpecialPositionController{
         }
         
  
-       
-        
+              
     }
-    /* Добавление новой должности */
+    /* Добавление новой специализации */
     async setNewSpecial(req,res,next){
         try {
             const {name}=req.body;
